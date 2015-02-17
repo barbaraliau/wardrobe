@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="css/styles.css">
+	</head>
+	<body ng-app="wardrobe">
+			
+			<!--insert navbar -->
+	<nav class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" ui-sref="home">Wardrobe</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li><a ui-sref="login">Login</a></li>
+        <li><a ui-sref="register">Register</a></li>
+        <li><a ui-sref="search">Search</a></li>
+        <li><a ui-sref="profile">Profile</a></li>
+        <li><a ui-sref="cart">Cart</a></li>
+        <!--results only here for testing purpose-->
+        <li><a ui-sref="results">Results</a></li>
+    </ul>
+</nav>
+
+		<div class="container">
+			
+			<div ui-view></div>
+		</div>
+
+
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/ui-router/release/angular-ui-router.js"></script>
+		<script src="bower_components/jquery/dist/jquery.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/controllers/CartController.js"></script>
+		<script src="js/controllers/HomeController.js"></script>
+		<script src="js/controllers/LoginController.js"></script>
+		<script src="js/controllers/ProfileController.js"></script>
+		<script src="js/controllers/RegisterController.js"></script>
+		<script src="js/controllers/SearchController.js"></script>
+		<script src="js/controllers/ResultsController.js"></script>
+		<script src="js/services/CartService.js"></script>
+		<script src="js/services/HomeService.js"></script>
+		<script src="js/services/LoginService.js"></script>
+		<script src="js/services/ProfileService.js"></script>
+		<script src="js/services/RegisterService.js"></script>
+		<script src="js/services/SearchService.js"></script>
+		<script src="js/services/ResultsService.js"></script>
+
+
+
+
+	</body>
+</html>
