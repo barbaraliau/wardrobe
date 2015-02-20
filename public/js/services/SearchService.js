@@ -12,9 +12,10 @@ app.service('SearchService', function($q, $http){
 					url: '/api/convert-brand',
 					data: brandObjArray
 				}).then(function(brandData){
-					console.log(brandData)
+				  console.log(brandData.data.join("&"))
+					dfd.resolve(brandData.data.join("&"))
 				})
-				
+			return dfd.promise	
 	}
 
 	searchServ.searchProducts = function(style, gender, color, brands){
@@ -56,14 +57,47 @@ app.service('SearchService', function($q, $http){
 
 
 	searchServ.topStyleChoices = [
-		{ name: "Dress" },
-		{ name: "Jacket" },
-		{ name: "Top" },
-		{ name: "Blazer" },
-		{ name: "Shirt" },
-		{ name: "Sweatshirt" },
-		{ name: "Vest" }
+		{ name: "dress" },
+		{ name: "cocktail+dress" },
+		{ name: "casual+dress" },
+		{ name: "jacket" },
+		{ name: "top" },
+		{ name: "suit+jacket"},
+		{ name: "blazer" },
+		{ name: "shirts+tops" },
+		{ name: "knits+tees" },
+		{ name: "dress+shirt" },
+		{ name: "casual+shirt" },
+		{ name: "polos" },
+		{ name: "sportcoats" },
+		{ name: "sweatshirt" },
+		{ name: "vest" },
+		{ name: "outerwear" },
+		{ name: "sleepwear"}
 	]
+
+	searchServ.bottomStyleChoices = [
+		{ name: "jeans" },
+		{ name: "pants" },
+		{ name: "denim" },
+		{ name: "slacks" },
+		{ name: "shorts" },
+		{ name: "skirt" }
+	]
+
+	searchServ.footwearStyleChoices = [
+		{ name: "shoes" },
+		{ name: "sneakers" },
+		{ name: "sandals" },
+		{ name: "wedges" },
+		{ name: "pumps+heels" },
+		{ name: "flats" },
+		{ name: "loafers+oxfords" },
+		{ name: "boots" },
+		{ name: "flip-flops" },
+		{ name: "evening+shoes" },
+	]
+
 
 	searchServ.genderChoices = ["","Women","Men","Unisex"]
 

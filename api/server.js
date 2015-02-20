@@ -96,50 +96,38 @@ app.post('/api/login',
 
 app.get('/api/profile', isAuthed, UserController.profile);
 
+//------product searches----//
 
 app.post('/api/convert-brand', function(req, res){
-	var q = q.defer();
-		Brand.find({name: { $in: req.body.brands}}, function(err, response){
-			var brandArray = [];
-			if(!err){
-				for (var i = 0; i < response.length; i++) {
-					console.log(response[i].id)
-					brandArray.push(response[i].id)
-				};
-				console.log(brandArray)
-			}
-		})
-		.exec()
-		.then(function(){
-			var brandArraySynonyms = [];
-			Brand.find({synonyms: { $in: req.body.brands}}, function(err, responseSyn){
-				if(!err){
-					for (var i = 0; i < responseSyn.length; i++) {
-					console.log(responseSyn[i].id)
-					brandArraySynonyms.push(responseSyn[i].id)
-					};
-					console.log(brandArraySynonyms)
-				}
-			})
-		})
+	Brand.find({name: { $in: req.body.brands}}, function(err, response){
+		var brandArray = [];
+		if(!err){
+			for (var i = 0; i < response.length; i++) {
+				brandArray.push("fl=b"+response[i].id)
+			};
+		}
+		// console.log(brandArray);
+		res.status(200).json(brandArray)
 	})
-
-app.post('/api/product', function(req, res){
-	console.log(req.body)
-	console.log(req.body)
-
-	// var urlRequest = 'http://api.shopstyle.com/api/v2/products?pid=uid2500-26740550-52&fts=' + req.body.style + '+' + req.body.gender + '+' + req.body.color + '&offset=0&limit=5';
-	// console.log(urlRequest);
-
-	// request(urlRequest, function(error, response, body){
-	// 	if(!error && response.statusCode == 200){
-	// 		console.log('url' + response)
-	// 		return res.send(body)
-	// 	}
-	// })
 })
 
+app.post('/api/product', function(req, res){
 
+	var urlRequest = 'http://api.shopstyle.com/api/v2/products?pid=uid2500-26740550-52&fts=' 
+	+ req.body.style + '+' 
+	+ req.body.gender + '+' 
+	+ req.body.color + '&' 
+	+ req.body.brand 
+	+'&offset=0&limit=20';
+	console.log(urlRequest);
+
+	request(urlRequest, function(error, response, body){
+		if(!error && response.statusCode == 200){
+			console.log('url' + response)
+			return res.send(body)
+		}
+	})
+})
 
 //----only need to run when updates are necessary----///
 app.post('/api/brands', function(req, res){

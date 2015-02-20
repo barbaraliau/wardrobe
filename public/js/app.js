@@ -32,18 +32,18 @@ app.config(function($stateProvider, $urlRouterProvider){
 	      },
 	      'tops': {
 	        templateUrl: 'templates/search-tops.html',
-	        controller: 'SearchController',
+	        controller: 'SearchController-top',
 	        controllerAs: 'searchC'
 	      },
 	      'bottoms': {
 	        templateUrl: 'templates/search-bottoms.html',
-	        controller: 'SearchController',
-	        controllerAs: 'searchC'
+	        controller: 'SearchController-bottoms',
+	        controllerAs: 'searchCB'
 	      },
 	      'footwear': {
 	        templateUrl: 'templates/search-footwear.html',
-	        controller: 'SearchController',
-	        controllerAs: 'searchC'
+	        controller: 'SearchController-footwear',
+	        controllerAs: 'searchF'
 	    	}
     	}
 		})

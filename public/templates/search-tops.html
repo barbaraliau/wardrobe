@@ -17,21 +17,26 @@
 		<button type="submit" ng-click="searchC.searchProducts()">Search</button>
 </form>
 
+{{searchC.error}}
+
 <div class="search-container">
 	<div class="horizontal-float" ng-repeat="product in searchC.products">
 		<div>
 			<h5>{{product.brand.name}} | {{product.name}} | Sale: {{product.salePriceLabel}} | Price: {{product.priceLabel}}</h5>
-			</br><a href="{{product.clickUrl}}">Buy at {{product.retailer.name}}</a>
-			</br><span class="description-text">{{product.description}}</span>
 			</br><img src="{{product.image.sizes.IPhone.url}}">
-			
-				<div ng-repeat="color in product.colors">
-					<div><img src="{{color.swatchUrl}}" class="color-swatches"></div>
-				</div>
 
+		<div class="color-swatch-parent">
+				<div ng-repeat="color in product.colors"> 
+					<img src="{{color.swatchUrl}}" class="color-swatches">
+				</div>
+			</br>
+		<div>
+			<p><span class="description-text">{{product.description}}</span></p>
+			<a href="{{product.clickUrl}}">Buy at {{product.retailer.name}}</a>
 				</br> 
 						<hr>
 			</div>
 	</div>	
-
-	<button ng-click="searchC.test()">TestButton</button>
+</div>
+</div>
+</div>
