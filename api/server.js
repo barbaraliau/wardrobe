@@ -96,19 +96,47 @@ app.post('/api/login',
 
 app.get('/api/profile', isAuthed, UserController.profile);
 
+
+app.post('/api/convert-brand', function(req, res){
+	var q = q.defer();
+		Brand.find({name: { $in: req.body.brands}}, function(err, response){
+			var brandArray = [];
+			if(!err){
+				for (var i = 0; i < response.length; i++) {
+					console.log(response[i].id)
+					brandArray.push(response[i].id)
+				};
+				console.log(brandArray)
+			}
+		})
+		.exec()
+		.then(function(){
+			var brandArraySynonyms = [];
+			Brand.find({synonyms: { $in: req.body.brands}}, function(err, responseSyn){
+				if(!err){
+					for (var i = 0; i < responseSyn.length; i++) {
+					console.log(responseSyn[i].id)
+					brandArraySynonyms.push(responseSyn[i].id)
+					};
+					console.log(brandArraySynonyms)
+				}
+			})
+		})
+	})
+
 app.post('/api/product', function(req, res){
 	console.log(req.body)
-	console.log(req.body.style)
+	console.log(req.body)
 
-	var urlRequest = 'http://api.shopstyle.com/api/v2/products?pid=uid2500-26740550-52&fts=' + req.body.style + '+' + req.body.gender + '+' + req.body.color + '&offset=0&limit=5';
-	console.log(urlRequest);
+	// var urlRequest = 'http://api.shopstyle.com/api/v2/products?pid=uid2500-26740550-52&fts=' + req.body.style + '+' + req.body.gender + '+' + req.body.color + '&offset=0&limit=5';
+	// console.log(urlRequest);
 
-	request(urlRequest, function(error, response, body){
-		if(!error && response.statusCode == 200){
-			console.log('url' + response)
-			return res.send(body)
-		}
-	})
+	// request(urlRequest, function(error, response, body){
+	// 	if(!error && response.statusCode == 200){
+	// 		console.log('url' + response)
+	// 		return res.send(body)
+	// 	}
+	// })
 })
 
 

@@ -4,16 +4,31 @@ app.service('SearchService', function($q, $http){
 
 	var searchServ = this;
 
-	searchServ.searchProducts = function(style, gender, color){
+	searchServ.getBrandId = function(brand1, brand2, brand3) {
+		var brandObjArray = { brands: [ brand1, brand2, brand3 ] };
+			var dfd = $q.defer()
+				$http({
+					method: 'POST',
+					url: '/api/convert-brand',
+					data: brandObjArray
+				}).then(function(brandData){
+					console.log(brandData)
+				})
+				
+	}
+
+	searchServ.searchProducts = function(style, gender, color, brands){
 		var dfd = $q.defer();
 		$http({
 			method: 'POST',
 			url: '/api/product',
 			data: { 
-				style: style.name,
-				gender: gender,
-				color: color.name
-			}
+			style: style.name,
+			gender: gender,
+			color: color.name,
+			brand: brands
+		}
+
 		}).then(function(data){
 			var results = data.data.products;
 			dfd.resolve(results)

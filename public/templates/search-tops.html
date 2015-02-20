@@ -22,7 +22,7 @@
 		<div>
 			<h5>{{product.brand.name}} | {{product.name}} | Sale: {{product.salePriceLabel}} | Price: {{product.priceLabel}}</h5>
 			</br><a href="{{product.clickUrl}}">Buy at {{product.retailer.name}}</a>
-			</br>{{product.description}}
+			</br><span class="description-text">{{product.description}}</span>
 			</br><img src="{{product.image.sizes.IPhone.url}}">
 			
 				<div ng-repeat="color in product.colors">
@@ -34,3 +34,4 @@
 			</div>
 	</div>	
 
+	<button ng-click="searchC.test()">TestButton</button>

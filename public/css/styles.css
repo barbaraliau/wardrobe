@@ -29,3 +29,7 @@
 	max-height: calc(100% - 80px);
 	overflow: auto;
 }
+
+.description-text {
+	font-size: 10px;
+}

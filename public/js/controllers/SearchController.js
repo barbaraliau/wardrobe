@@ -10,17 +10,18 @@ searchC.topGenderChosen = SearchService.genderChoices[0];
 
 
 	searchC.searchProducts = function(){
-			SearchService.searchProducts(searchC.topStyleChosen, searchC.topGenderChosen, searchC.topColorChosen)
+		//run getBrandIds. pass into searchProducts
+			SearchService.searchProducts(searchC.topStyleChosen, searchC.topGenderChosen, searchC.topColorChosen, searchC.brandChoiceOne)
 					.then(function(data){
 						searchC.products = data;
 						console.log(data)
 				})
 	}
 
-// searchC.brandChoiceOne
-// searchC.brandChoiceTwo
-// searchC.brandChoiceThree
-// searchC.brandChoiceFour
-// searchC.brandChoiceFive
+
+	searchC.test = function(){
+		SearchService.getBrandId("J.Crew", "Polo Ralph Lauren")
+	};
+
 
 })//end
