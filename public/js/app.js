@@ -24,10 +24,29 @@ app.config(function($stateProvider, $urlRouterProvider){
 	})
 	.state('search', {
 		url: '/search',
-		templateUrl: '../templates/search.html',
-		controller: 'SearchController',
-		controllerAs: 'searchC'
-	})
+			views: {
+				'search-box': {
+	        templateUrl: 'templates/search-searchbox.html',
+	        controller: 'SearchController',
+	        controllerAs: 'searchC'
+	      },
+	      'tops': {
+	        templateUrl: 'templates/search-tops.html',
+	        controller: 'SearchController',
+	        controllerAs: 'searchC'
+	      },
+	      'bottoms': {
+	        templateUrl: 'templates/search-bottoms.html',
+	        controller: 'SearchController',
+	        controllerAs: 'searchC'
+	      },
+	      'footwear': {
+	        templateUrl: 'templates/search-footwear.html',
+	        controller: 'SearchController',
+	        controllerAs: 'searchC'
+	    	}
+    	}
+		})
 	.state('profile', {
 		url: '/profile',
 		templateUrl: '../templates/profile.html',
@@ -66,6 +85,7 @@ app.config(function($stateProvider, $urlRouterProvider){
 		templateUrl: '../templates/results.html',
 		controller: 'ResultsController',
 		controllerAs: 'resultsC'
+		
 	})
 
 

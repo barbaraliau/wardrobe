@@ -1,0 +1,31 @@
+/** { border: 1px solid red;}*/
+/** { background-color: rgba(255, 0,0,.2); }
+* * { background-color: rgba(0, 255,0,.2); }
+* * * { background-color: rgba(0, 0,255,.2); }
+* * * * { background-color: rgba(255, 0,255,.2); }
+* * * * * { background-color: rgba(0,255,255,.2); }
+* * * * * * { background-color: rgba(255, 255 ,0,.2); }*/
+
+/*.everything {
+	padding: 0px;
+	margin: 20px;
+}
+*/
+
+.search-overall {
+	padding: 10px;
+	display: flex;
+	flex-direction: row;
+
+}
+
+.color-swatches {
+	float: left;
+	margin-top: 5px;
+}
+
+.search-box-ind {
+	width: 33%;
+	max-height: calc(100% - 80px);
+	overflow: auto;
+}

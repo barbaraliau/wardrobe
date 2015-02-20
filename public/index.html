@@ -23,9 +23,16 @@
     </ul>
 </nav>
 
-		<div class="container">
+		<div class="container everything">
 			
-			<div ui-view></div>
+			<div ui-view>	
+				<div class="container search-overall" class="search-views" ui-view="search">
+					<div ui-view="tops" class="search-box-ind"></div>
+			  	<div ui-view="bottoms" class="search-box-ind"></div>
+			  	<div ui-view="footwear" class="search-box-ind"></div>
+			</div>
+		</div>
+
 		</div>
 
 
@@ -48,8 +55,6 @@
 		<script src="js/services/RegisterService.js"></script>
 		<script src="js/services/SearchService.js"></script>
 		<script src="js/services/ResultsService.js"></script>
-
-
 
 
 	</body>

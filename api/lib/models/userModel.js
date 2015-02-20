@@ -3,10 +3,10 @@ var mongoose = require('mongoose'),
 		q = require('q');
 
 var userSchema = mongoose.Schema({
+		name: { type: String, required: true },
 		username: { type: String, required: true, unique: true },
+		email: { type: String, required: true },
 		password: { type: String, required: true },
-		email: String,
-		gender: { type: String, enum: ['Male', 'Female', 'Other'] },
 		age: { type: Number, min: 13 },
 		bio: String
 
@@ -32,7 +32,6 @@ userSchema.pre('save', function(next){
 });
 
 //compare inputted password with hashed password. put it on the schema as a method to call later on wherever model is required
-
 userSchema.methods.comparePassword = function(pass){
 	var dfd = q.defer();
 	bcrypt.compare(pass, this.password, function(err, isMatch){

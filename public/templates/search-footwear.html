@@ -1,0 +1,36 @@
+<p>search-footwear.html</p>
+
+<form class="search-container">
+	Style:
+		<select ng-model="searchC.topStyleChosen" ng-options="style.name for style in searchC.topStyleChoices">
+		</select> </br>
+	Gender:
+		<select ng-model="searchC.topGenderChosen" ng-options="gender for gender in searchC.topGenderChoices">
+		</select>  </br>
+	Color:
+		<select ng-model="searchC.topColorChosen" ng-options="color.name for color in searchC.topColorChoices">
+		</select>  </br>
+	Brands (up to 3):  </br>
+		<input type="text" placeholder="Enter brand" ng-model="searchC.brandChoiceOne">  </br>
+		<input type="text" placeholder="Enter brand" ng-model="searchC.brandChoiceTwo">	 </br>
+		<input type="text" placeholder="Enter brand" ng-model="searchC.brandChoiceThree">  </br>
+		<button type="submit" ng-click="searchC.searchProducts()">Search</button>
+</form>
+
+<div class="search-container">
+	<div class="horizontal-float" ng-repeat="product in searchC.products">
+		<div>
+			<h5>{{product.brand.name}} | {{product.name}} | Sale: {{product.salePriceLabel}} | Price: {{product.priceLabel}}</h5>
+			</br><a href="{{product.clickUrl}}">Buy at {{product.retailer.name}}</a>
+			</br>{{product.description}}
+			</br><img src="{{product.image.sizes.IPhone.url}}">
+			
+				<div ng-repeat="color in product.colors">
+					<div><img src="{{color.swatchUrl}}" class="color-swatches"></div>
+				</div>
+
+				</br> 
+						<hr>
+			</div>
+	</div>	
+
