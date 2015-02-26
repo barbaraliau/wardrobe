@@ -8,7 +8,10 @@ var userSchema = mongoose.Schema({
 		email: { type: String, required: true },
 		password: { type: String, required: true },
 		age: { type: Number, min: 13 },
-		bio: String
+		bio: String,
+		savedOutfits : [
+			{ id: { type: Number } }
+		]
 
 })
 

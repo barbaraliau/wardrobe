@@ -1,12 +1,12 @@
 var express = require('express'),
 		bodyParser = require('body-parser'),
 		mongoose = require('mongoose'),
-		session = require('express-session')
+		session = require('express-session'),
 		passport = require('passport'),
 		request = require('request'),
 		q = require('q'),
 		LocalStrategy = require('passport-local').Strategy,
-		FacebookStrategy = require('passport-facebook').Strategy
+		FacebookStrategy = require('passport-facebook').Strategy;
 
 var app = express(),
 		port = 7890;
@@ -33,25 +33,28 @@ var User = require('./lib/models/userModel'),
 passport.use(new LocalStrategy(
 	function(username, password, done) {
 		User.findOne({ username: username }, function(err, user) {
-			if (!user) {
-				return done(null, false) 
-			}
-			user.comparePassword(password).then(function(isMatch){
+		if(err) { return done(err); }
+		if (!user) {
+			return done(null, false, { message: 'Incorrect username' }); 
+		}
+		user.comparePassword(password).then(function(isMatch){
 				if(!isMatch){
-					return done(null, false, { message: 'Incorrect password.'});
+					return done(null, false, {message: 'Incorrect password'});
 				}
 				return done(null, user);
 			})
 		})
-}))
+}));
 
 
 passport.serializeUser(function(user, done){
-	done(null, user);
+	done(null, user.id);
 });
 
-passport.deserializeUser(function(obj, done){
-	done(null, obj);
+passport.deserializeUser(function(id, done){
+	User.findById(id, function(err, user){
+		done(err, user);
+	});
 });
 
 //---middleware---//
@@ -74,6 +77,11 @@ var isAuthed = function(req, res, next){
 		res.redirect('/home')
 }
 
+var currentUser = function(req, res){
+	return res.status(200).json(req.user);
+}
+
+
 //---endpoints on server----//
 
 //authenticates with LocalStrategy
@@ -83,18 +91,37 @@ app.post('/api/register', function(req, res){
 	var newUser = new User(req.body);
 	newUser.save(function(err, user){
 		if(err){
-			return res.status(500).end();
+			console.log(err);
+			var error = err.code;
+			return res.send(error).end();
+		} else {
+			req.logIn(user, function(err){
+				if(!err){
+					res.status(200).send(user)
+				}
+			})
 		}
-		return res.json(user);
 	})
 });
 
-app.post('/api/login', 
-	passport.authenticate('local'), function(req, res){
-		return res.status(200).end();
-	});
+app.post('/api/login',
+	passport.authenticate('local'),
+	function(req, res) {
+		var userInfo = { name: req.user.name, username: req.user.username, email: req.user.email };
+		res.send(userInfo)
+	}      
 
-app.get('/api/profile', isAuthed, UserController.profile);
+)
+
+app.get('/api/logout', function(req, res){
+	req.logout();
+	res.redirect('/')
+})
+
+
+app.get('/api/profile/:username', isAuthed, UserController.profile);
+
+app.put('/api/saveItem', UserController.update);
 
 //------product searches----//
 
@@ -111,6 +138,20 @@ app.post('/api/convert-brand', function(req, res){
 	})
 })
 
+app.post('/api/getOutfits', function(req, res){
+	var url = 'http://api.shopstyle.com/api/v2/products/' +
+	req.body["id"] + 
+	'?pid=uid2500-26740550-52'
+
+	request(url, function(error, response, body){
+		console.log(url)
+		if(!error && response.statusCode == 200){
+			return res.send(body).end();
+		}
+	})
+
+})
+
 app.post('/api/product', function(req, res){
 
 	var urlRequest = 'http://api.shopstyle.com/api/v2/products?pid=uid2500-26740550-52&fts=' 
@@ -118,13 +159,12 @@ app.post('/api/product', function(req, res){
 	+ req.body.gender + '+' 
 	+ req.body.color + '&' 
 	+ req.body.brand 
-	+'&offset=0&limit=20';
+	+'&offset=0';
 	console.log(urlRequest);
 
 	request(urlRequest, function(error, response, body){
 		if(!error && response.statusCode == 200){
-			console.log('url' + response)
-			return res.send(body)
+			return res.send(body).end();
 		}
 	})
 })
