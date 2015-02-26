@@ -1,5 +1,6 @@
 var app = angular.module('wardrobe', ['ui.router']);
 
+
 app.config(function($stateProvider, $urlRouterProvider){
 	$urlRouterProvider.otherwise('/home');
 
@@ -32,65 +33,55 @@ app.config(function($stateProvider, $urlRouterProvider){
 	      },
 	      'tops': {
 	        templateUrl: 'templates/search-tops.html',
-	        controller: 'SearchController-top',
-	        controllerAs: 'searchC'
+	        controller: 'SearchController-top'
 	      },
 	      'bottoms': {
 	        templateUrl: 'templates/search-bottoms.html',
-	        controller: 'SearchController-bottoms',
-	        controllerAs: 'searchCB'
+	        controller: 'SearchController-bottoms'
 	      },
 	      'footwear': {
 	        templateUrl: 'templates/search-footwear.html',
-	        controller: 'SearchController-footwear',
-	        controllerAs: 'searchF'
+	        controller: 'SearchController-footwear'
 	    	}
     	}
 		})
-	.state('profile', {
-		url: '/profile',
-		templateUrl: '../templates/profile.html',
-		controller: 'ProfileController',
-		controllerAs: 'profileC'
+	.state('my-outfits', {
+		url: '/my-outfits/:username',
+		templateUrl: '../templates/my-outfits.html',
+		controller: 'OutfitsController',
+		controllerAs: 'outfitsC',
+		resolve: {
+			authenticate: function($stateParams, LoginService){
+				return LoginService.getUserInfo($stateParams)
+				}
+			}
 	})
-		 // each of these sections will have their own view
-		//url (profile/details)
-		.state('profile.details', {
-			url: '/details',
-			templateUrl: '../templates/profile-details.html'
+		//url (profile/:username/profile)
+		.state('my-outfits.profile', {
+			url: '/profile',
+			templateUrl: '../templates/my-outfits-profile.html',
+			controller: 'ProfileController',
+			controllerAs: 'profileC',
+			resolve: {
+				authenticate: function($stateParams, LoginService) {
+					return LoginService.getUserInfo($stateParams.current)
+				}
+			}
 		})
-			// url will be nested (/profile/saved-outfits)
-		.state('profile.saved-outfits', {
-			url: '/saved-outfits',
-			templateUrl: '../templates/profile-saved-outfits.html'
-		})
-				//url (/profile/saved-outfits/view/:id)
-				.state('profile.saved-outfits.view', {
-				url: '/view/:id',
-				templateUrl: '../templates/profile-saved-outfits-view.html'
-				})
-		//url (/profile/orders)
-		.state('profile.orders', {
-			url: '/orders',
-			templateUrl: '../templates/profile-orders.html'
-		})
-	.state('cart', {
-		url: '/cart',
-		templateUrl: '../templates/cart.html',
-		controller: 'CartController',
-		controllerAs: 'cartC'
-	})
-	.state('results', {
-		url: '/results',
-		templateUrl: '../templates/results.html',
-		controller: 'ResultsController',
-		controllerAs: 'resultsC'
-		
-	})
-
-
-
- 
 
 
 })//end
+
+app.factory('myHttpInterceptor', function($q, $location){
+	return {
+		responseError: function(rejection) {
+			if (rejection.status === 401) {
+				$location.path('/login');
+				return;
+			}
+			return $q.reject(rejection);
+		}
+	}
+})
+
+

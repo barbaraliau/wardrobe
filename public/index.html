@@ -3,12 +3,13 @@
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="css/styles.css">
 	</head>
 	<body ng-app="wardrobe">
 			
 			<!--insert navbar -->
-	<nav class="navbar navbar-inverse" role="navigation">
+	<nav class="navbar navbar-inverse" role="navigation" ng-controller="HomeController">
     <div class="navbar-header">
         <a class="navbar-brand" ui-sref="home">Wardrobe</a>
     </div>
@@ -16,24 +17,21 @@
         <li><a ui-sref="login">Login</a></li>
         <li><a ui-sref="register">Register</a></li>
         <li><a ui-sref="search">Search</a></li>
-        <li><a ui-sref="profile">Profile</a></li>
-        <li><a ui-sref="cart">Cart</a></li>
-        <!--results only here for testing purpose-->
-        <li><a ui-sref="results">Results</a></li>
+        <li><a ui-sref="my-outfits">My Outfits</a></li>
+        <li><a ui=sref="home" ng-click="logout()">Logout</a></li>
     </ul>
+
 </nav>
 
-		<div class="container everything">
 			
-			<div ui-view>	
-				<div class="container search-overall" class="search-views" ui-view="search">
+			<div ui-view id="all-the-views">	
+				<div id="search-overall" ui-view="search">
 					<div ui-view="tops" class="search-box-ind"></div>
 			  	<div ui-view="bottoms" class="search-box-ind"></div>
 			  	<div ui-view="footwear" class="search-box-ind"></div>
 			</div>
 		</div>
 
-		</div>
 
 
 		<script src="bower_components/angular/angular.js"></script>
@@ -41,23 +39,21 @@
 		<script src="bower_components/jquery/dist/jquery.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 		<script src="js/app.js"></script>
-		<script src="js/controllers/CartController.js"></script>
+		<script src="js/directives/customDirectives.js"></script>
 		<script src="js/controllers/HomeController.js"></script>
 		<script src="js/controllers/LoginController.js"></script>
+		<script src="js/controllers/OutfitsController.js"></script>
 		<script src="js/controllers/ProfileController.js"></script>
 		<script src="js/controllers/RegisterController.js"></script>
 		<script src="js/controllers/SearchController-top.js"></script>
 		<script src="js/controllers/SearchController-bottoms.js"></script>
 		<script src="js/controllers/SearchController-footwear.js"></script>
-
-		<script src="js/controllers/ResultsController.js"></script>
-		<script src="js/services/CartService.js"></script>
 		<script src="js/services/HomeService.js"></script>
 		<script src="js/services/LoginService.js"></script>
 		<script src="js/services/ProfileService.js"></script>
 		<script src="js/services/RegisterService.js"></script>
 		<script src="js/services/SearchService.js"></script>
-		<script src="js/services/ResultsService.js"></script>
+		<script src="js/services/OutfitsService.js"></script>
 
 
 	</body>
