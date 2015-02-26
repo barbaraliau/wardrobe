@@ -1,28 +1,38 @@
 var app = angular.module('wardrobe');
 
-app.controller('SearchController-top', function(SearchService){
-	var searchC = this;
+app.controller('SearchController-top', function(SearchService, $scope){
 
-searchC.topStyleChoices = SearchService.topStyleChoices;
-searchC.topGenderChoices = SearchService.genderChoices;
-searchC.topColorChoices = SearchService.colorChoices;
-searchC.topGenderChosen = SearchService.genderChoices[0];
+$scope.topStyleChoices = SearchService.topStyleChoices;
+$scope.topGenderChoices = SearchService.genderChoices;
+$scope.topColorChoices = SearchService.colorChoices;
+$scope.topGenderChosen = SearchService.genderChoices[0];
 
-
-	searchC.searchProducts = function(){
-		SearchService.getBrandId(searchC.brandChoiceOne, searchC.brandChoiceTwo, searchC.brandChoiceThree).then(function(brandArray){
+	$scope.searchProducts = function(){
+		$scope.searchActive = false;
+		SearchService.getBrandId($scope.brandChoiceOne, $scope.brandChoiceTwo, $scope.brandChoiceThree).then(function(brandArray){
 			console.log(brandArray)
-			SearchService.searchProducts(searchC.topStyleChosen, searchC.topGenderChosen, searchC.topColorChosen, brandArray)
+			SearchService.searchProducts($scope.topStyleChosen, $scope.topGenderChosen, $scope.topColorChosen, brandArray)
 					.then(function(data){
-						if(data !== []){
-							searchC.products = data;
-							console.log(data)
-						} else if (data === []){
-							searchC.error = "No results found. Please modify your search."
-						}
+						console.log(data);
+							$scope.products = data;	
 				})
 		})	
 	}
 
+	$scope.searchActive = false;	
+
+
+	//get ID 
+
+	$scope.saveItem = function(product) {
+		var id = product.id;
+		SearchService.saveItem(id)
+			.then(function(){
+				alert("Item Saved!")
+		}).catch(function(error){
+			alert('Please login to save')
+		})
+	
+	}
 
 })//end

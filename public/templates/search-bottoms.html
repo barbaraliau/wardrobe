@@ -1,40 +1,23 @@
-<p>search-bottoms</p>
+<div><img src="../images/bottoms.png" ng-click="searchActive = !searchActive" ng-class="{ active: searchActive }" class="icon-size"></div>
+	<form class="form-div" ng-show="searchActive" >
+		Style:
+			<select ng-model="bottomStyleChosen" ng-options="style.name for style in bottomStyleChoices">
+			</select></br>
+		Gender:
+			<select ng-model="bottomGenderChosen" ng-options="gender for gender in bottomGenderChoices">
+			</select> </br>
+		Color:
+			<select ng-model="bottomColorChosen" ng-options="color.name for color in bottomColorChoices">
+			</select> </br>
+		Brands (up to 3):  
+			<input type="text" placeholder="Enter brand" ng-model="brandChoiceOne">  
+			<input type="text" placeholder="Enter brand" ng-model="brandChoiceTwo">	 
+			<input type="text" placeholder="Enter brand" ng-model="brandChoiceThree">  
+			<button type="submit" ng-click="searchProducts()" ng-class="{ active: searchActive }">Search</button>
+	</form>
 
-<form class="search-container">
-	Style:
-		<select ng-model="searchCB.bottomStyleChosen" ng-options="style.name for style in searchCB.bottomStyleChoices">
-		</select> </br>
-	Gender:
-		<select ng-model="searchCB.bottomGenderChosen" ng-options="gender for gender in searchCB.bottomGenderChoices">
-		</select>  </br>
-	Color:
-		<select ng-model="searchCB.bottomColorChosen" ng-options="color.name for color in searchCB.bottomColorChoices">
-		</select>  </br>
-	Brands (up to 3):  </br>
-		<input type="text" placeholder="Enter brand" ng-model="searchCB.brandChoiceOne">  </br>
-		<input type="text" placeholder="Enter brand" ng-model="searchCB.brandChoiceTwo">	 </br>
-		<input type="text" placeholder="Enter brand" ng-model="searchCB.brandChoiceThree">  </br>
-		<button type="submit" ng-click="searchCB.searchProducts()">Search</button>
-</form>
+<div class="contains-search-result">
+		<display-search-results></display-search-results>
+</div>
 
-<div class="search-container">
-	<div class="horizontal-float" ng-repeat="product in searchCB.products">
-		<div>
-			<h5>{{product.brand.name}} | {{product.name}} | Sale: {{product.salePriceLabel}} | Price: {{product.priceLabel}}</h5>
-			</br><img src="{{product.image.sizes.IPhone.url}}">
 
-		<div class="color-swatch-parent">
-				<div ng-repeat="color in product.colors"> 
-					<img src="{{color.swatchUrl}}" class="color-swatches">
-				</div>
-			</br>
-		<div>
-			<p><span class="description-text">{{product.description}}</span></p>
-			<a href="{{product.clickUrl}}">Buy at {{product.retailer.name}}</a>
-				</br> 
-						<hr>
-			</div>
-	</div>	
-</div>
-</div>
-</div>

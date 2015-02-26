@@ -15,6 +15,11 @@ this.register = function(name, username, email, password){
 			}
 		}).then(function(response){
 			dfd.resolve(response.data);
+		}).catch(function(err){
+			console.log(err)
+			if(err.status === 11000) {
+				alert('That username is already taken. Please choose another')
+			}
 		})
 		return dfd.promise;
 	}

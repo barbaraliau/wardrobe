@@ -1,24 +1,36 @@
 var app = angular.module('wardrobe');
 
-app.controller('SearchController-footwear', function(SearchService){
-	var searchF = this;
+app.controller('SearchController-footwear', function(SearchService, $scope){
 
-searchF.footwearStyleChoices = SearchService.footwearStyleChoices;
-searchF.footwearGenderChoices = SearchService.genderChoices;
-searchF.footwearColorChoices = SearchService.colorChoices;
-searchF.footwearGenderChosen = SearchService.genderChoices[0];
+$scope.footwearStyleChoices = SearchService.footwearStyleChoices;
+$scope.footwearGenderChoices = SearchService.genderChoices;
+$scope.footwearColorChoices = SearchService.colorChoices;
+$scope.footwearGenderChosen = SearchService.genderChoices[0];
 
 
-	searchF.searchProducts = function(){
-		SearchService.getBrandId(searchF.brandChoiceOne, searchF.brandChoiceTwo, searchF.brandChoiceThree).then(function(brandArray){
+	$scope.searchProducts = function(){
+		$scope.searchActive = false;
+		
+		SearchService.getBrandId($scope.brandChoiceOne, $scope.brandChoiceTwo, $scope.brandChoiceThree).then(function(brandArray){
 			console.log(brandArray)
-			SearchService.searchProducts(searchF.footwearStyleChosen, searchF.footwearGenderChosen, searchF.footwearColorChosen, brandArray)
+			SearchService.searchProducts($scope.footwearStyleChosen, $scope.footwearGenderChosen, $scope.footwearColorChosen, brandArray)
 					.then(function(data){
-						searchF.products = data;
+						$scope.products = data;
 						console.log(data)
 				})
 		})	
 	}
+		$scope.searchActive = false;
 
+$scope.saveItem = function(product) {
+		var id = product.id;
+		SearchService.saveItem(id)
+			.then(function(){
+				alert("Item Saved!")
+		}).catch(function(error){
+			alert('Please login to save')
+		})
+	
+	}
 
 })//end

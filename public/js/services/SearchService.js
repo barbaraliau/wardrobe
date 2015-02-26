@@ -32,9 +32,27 @@ app.service('SearchService', function($q, $http){
 
 		}).then(function(data){
 			var results = data.data.products;
-			dfd.resolve(results)
+			dfd.resolve(results);
 		})
 		return dfd.promise;
+	}
+
+	searchServ.saveItem = function(id) {
+		var dfd = $q.defer();
+		$http({
+			method: 'PUT',
+			url: '/api/saveItem', 
+			data: {
+				id: id
+			}
+		}).then(function(data){
+			console.log("Results Saved" + data);
+			dfd.resolve();
+		}, function(error){
+			console.log(error)
+			dfd.reject(error)
+		})
+		return dfd.promise
 	}
 	
 	//for every product, loop through all the attributes to find description, change it into a string and replace HTML elements.
@@ -51,29 +69,29 @@ app.service('SearchService', function($q, $http){
 	// 				}
 	// 			}
 	// 		}
-	// 			return replaced;	
+	// 			return data;	
 	// }
 	
 
 
 	searchServ.topStyleChoices = [
-		{ name: "dress" },
-		{ name: "cocktail+dress" },
-		{ name: "casual+dress" },
-		{ name: "jacket" },
 		{ name: "top" },
-		{ name: "suit+jacket"},
-		{ name: "blazer" },
 		{ name: "shirts+tops" },
 		{ name: "knits+tees" },
 		{ name: "dress+shirt" },
 		{ name: "casual+shirt" },
 		{ name: "polos" },
+		{ name: "suit+jacket"},
+		{ name: "blazer" },
+		{ name: "jacket" },
 		{ name: "sportcoats" },
 		{ name: "sweatshirt" },
 		{ name: "vest" },
 		{ name: "outerwear" },
-		{ name: "sleepwear"}
+		{ name: "sleepwear"},
+		{ name: "dress" },
+		{ name: "cocktail+dress" },
+		{ name: "casual+dress" },
 	]
 
 	searchServ.bottomStyleChoices = [
@@ -95,13 +113,16 @@ app.service('SearchService', function($q, $http){
 		{ name: "loafers+oxfords" },
 		{ name: "boots" },
 		{ name: "flip-flops" },
-		{ name: "evening+shoes" },
+		{ name: "evening+shoes" }
 	]
 
 
 	searchServ.genderChoices = ["","Women","Men","Unisex"]
 
 	searchServ.colorChoices = [
+	{"id":"16","name":"Black"},
+	{"id":"15","name":"White"},
+	{"id":"14","name":"Gray"},
 	{"id":"1","name":"Brown"},
 	{"id":"3","name":"Orange"},
 	{"id":"4","name":"Yellow"},
@@ -109,9 +130,6 @@ app.service('SearchService', function($q, $http){
 	{"id":"8","name":"Purple"},
 	{"id":"10","name":"Blue"},
 	{"id":"13","name":"Green"},
-	{"id":"14","name":"Gray"},
-	{"id":"15","name":"White"},
-	{"id":"16","name":"Black"},
 	{"id":"17","name":"Pink"},
 	{"id":"18","name":"Gold"},
 	{"id":"19","name":"Silver"},

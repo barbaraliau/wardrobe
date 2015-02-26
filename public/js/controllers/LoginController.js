@@ -1,17 +1,20 @@
 var app = angular.module('wardrobe');
 
-app.controller('LoginController', function(LoginService, $location){
+app.controller('LoginController', function(LoginService, $location, $scope){
 	var loginC = this;
 
-	loginC.error = false;
+	loginC.errorUser= false;
+	loginC.errorPassword = false;
 
 	loginC.login = function(){
 		LoginService.login(loginC.username, loginC.password).then(function(){
-			$location.path('/search');
+			console.log('logged in')
 		}).catch(function(err){
-			console.log(err);
-			loginC.error = true;
-			loginC.password = "";
+			if(err.status === 401) {
+				loginC.errorUser = true;
+				loginC.username = "";
+				loginC.password = "";
+			}		
 		})
 	}
 
