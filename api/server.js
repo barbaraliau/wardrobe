@@ -3,8 +3,6 @@ var express = require('express'),
 		mongoose = require('mongoose'),
 		session = require('express-session'),
 		passport = require('passport'),
-		request = require('request'),
-		q = require('q'),
 		LocalStrategy = require('passport-local').Strategy,
 		FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -13,7 +11,8 @@ var app = express(),
 
 var User = require('./lib/models/userModel'),
 		UserController = require('./lib/controllers/userController'),
-		Brand = require('./lib/models/brandsModel')
+		AuthController = require('./lib/controllers/authController'),
+		ProductController = require('./lib/controllers/productController')
 
 //---passport facebook--//
 // passport.use(new FacebookStrategy({
@@ -85,39 +84,13 @@ var currentUser = function(req, res){
 //---endpoints on server----//
 
 //authenticates with LocalStrategy
-
-app.post('/api/register', function(req, res){
-	//create user
-	var newUser = new User(req.body);
-	newUser.save(function(err, user){
-		if(err){
-			console.log(err);
-			var error = err.code;
-			return res.send(error).end();
-		} else {
-			req.logIn(user, function(err){
-				if(!err){
-					res.status(200).send(user)
-				}
-			})
-		}
-	})
-});
+//creates a user
+app.post('/api/auth/register', AuthController.register);
 
 app.post('/api/login',
-	passport.authenticate('local'),
-	function(req, res) {
-		var userInfo = { name: req.user.name, username: req.user.username, email: req.user.email };
-		res.send(userInfo)
-	}      
+	passport.authenticate('local'), AuthController.login);
 
-)
-
-app.get('/api/logout', function(req, res){
-	req.logout();
-	res.redirect('/')
-})
-
+app.get('/api/logout', AuthController.logout);
 
 app.get('/api/profile/:username', isAuthed, UserController.profile);
 
@@ -125,83 +98,15 @@ app.put('/api/saveItem', UserController.update);
 
 //------product searches----//
 
-app.post('/api/convert-brand', function(req, res){
-	Brand.find({name: { $in: req.body.brands}}, function(err, response){
-		var brandArray = [];
-		if(!err){
-			for (var i = 0; i < response.length; i++) {
-				brandArray.push("fl=b"+response[i].id)
-			};
-		}
-		// console.log(brandArray);
-		res.status(200).json(brandArray)
-	})
-})
+app.post('/api/convert-brand', ProductController.convertBrand);
 
-app.post('/api/getOutfits', function(req, res){
-	var url = 'http://api.shopstyle.com/api/v2/products/' +
-	req.body["id"] + 
-	'?pid=uid2500-26740550-52'
+app.post('/api/getOutfits', ProductController.getOutfits);
 
-	request(url, function(error, response, body){
-		console.log(url)
-		if(!error && response.statusCode == 200){
-			return res.send(body).end();
-		}
-	})
-
-})
-
-app.post('/api/product', function(req, res){
-
-	var urlRequest = 'http://api.shopstyle.com/api/v2/products?pid=uid2500-26740550-52&fts=' 
-	+ req.body.style + '+' 
-	+ req.body.gender + '+' 
-	+ req.body.color + '&' 
-	+ req.body.brand 
-	+'&offset=0';
-	console.log(urlRequest);
-
-	request(urlRequest, function(error, response, body){
-		if(!error && response.statusCode == 200){
-			return res.send(body).end();
-		}
-	})
-})
+app.post('/api/product', ProductController.searchProducts)
 
 //----only need to run when updates are necessary----///
-app.post('/api/brands', function(req, res){
-	getAllBrands().then(function(results){
-		var brands = (JSON.parse(results).brands)
-		for(var i = 0; i < brands.length; i++){
-				var newBrand = new Brand(brands[i]);
-				newBrand.save(function(err, brand){
-					if(err){
-						return res.status(500).end();
-					}
-					return res.status(200);
-				})
-			}
-		})
-})
-
-			var getAllBrands = function(){
-				var dfd = q.defer()
-				request('http://api.shopstyle.com/api/v2/brands?pid=uid2500-26740550-52', function(error, response, body){
-					if(!error && response.statusCode == 200){
-						dfd.resolve(body)
-					}
-				})
-				return dfd.promise
-			}
-
-app.get('/api/colors', function(req, res){
-	request('http://api.shopstyle.com/api/v2/colors?pid=uid2500-26740550-52', function(error, response, body){
-		if(!error && response.statusCode == 200){
-			return res.send(body)
-		}
-	})
-})
+app.post('/api/brands', ProductController.updateAllBrands)
+app.get('/api/colors', ProductController.getColors);
 
 //---connections---//
 app.listen(port, function(){
