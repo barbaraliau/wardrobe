@@ -1,0 +1,21 @@
+<div class="container">
+		  <a ui-sref-active="active" ui-sref=".profile">Profile</a> |
+	<div ui-view></div>
+
+
+<div ><span class="glyphicon glyphicon-triangle-bottom" ng-click="outfitsC.showInfo = !outfitsC.showInfo"></span></div>
+
+<div class="outfit-grid">
+	<div class="ind-outfit" ng-repeat="outfit in outfitsC.displayAllOutfits">
+	
+			<img ng-src="{{outfit.image.sizes.Large.url}}">
+			
+			<div ng-show="outfitsC.showInfo">	
+				<h6>{{ outfit.name }}</h6>
+				<p class="description-text-outfits">{{ outfit.description }}</p>
+				<p>Buy at <a ng-href="{{ outfit.clickUrl }}">{{ outfit.retailer.name}}</a></p>
+			</div>
+	
+	</div>
+</div>
+
