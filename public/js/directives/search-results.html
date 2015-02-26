@@ -1,0 +1,27 @@
+	
+			<div ng-repeat="product in products" class="organize-results">	
+				<div class="product-head"><h5 class="product-head">{{product.brand.name}} | {{product.name}}</h5></div> 
+			
+					<div class="color-swatch-parent">
+							<div ng-repeat="color in product.colors"> 
+								<img ng-src="{{color.swatchUrl}}" class="color-swatches">
+							</div>
+					</div>
+
+					<div class="product-image"><img ng-src="{{product.image.sizes.Large.url}}"></div>
+
+					<div class="description-text">
+						<p>{{product.description}}</p>
+						<a ng-href="{{product.clickUrl}}">Buy at {{product.retailer.name}}</a> </br> Price: {{product.priceLabel}} </br> Sale Price: {{product.salePriceLabel}} </br>
+						Available in Size: <span ng-repeat="size in product.sizes">{{size.name}} - </span>
+					</br>
+					</br>	
+					<button type="submit" ng-click="saveItem(product)"> Save Item </button>
+					</br></br>
+					ID: {{product.id}}
+					</br>
+					</div>	
+					
+
+			</div>
+		</div>
