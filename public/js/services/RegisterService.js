@@ -6,7 +6,7 @@ this.register = function(name, username, email, password){
 		var dfd = $q.defer();
 		$http({
 			method: 'POST',
-			url: '/api/register',
+			url: '/api/auth/register',
 			data: {
 				name: name,
 				username: username,

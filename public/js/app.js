@@ -1,4 +1,4 @@
-var app = angular.module('wardrobe', ['ui.router']);
+var app = angular.module('wardrobe', ['ui.router', 'ui.bootstrap', 'infinite-scroll']);
 
 
 app.config(function($stateProvider, $urlRouterProvider){
@@ -11,12 +11,6 @@ app.config(function($stateProvider, $urlRouterProvider){
 		controller: 'HomeController',
 		controllerAs: 'homeC'
 	})
-	.state('login', {
-		url: '/login',
-		templateUrl: '../templates/login.html',
-		controller: 'LoginController',
-		controllerAs: 'loginC'
-	})
 	.state('register', {
 		url: '/register',
 		templateUrl: '../templates/register.html',
@@ -26,11 +20,6 @@ app.config(function($stateProvider, $urlRouterProvider){
 	.state('search', {
 		url: '/search',
 			views: {
-				'search-box': {
-	        templateUrl: 'templates/search-searchbox.html',
-	        controller: 'SearchController',
-	        controllerAs: 'searchC'
-	      },
 	      'tops': {
 	        templateUrl: 'templates/search-tops.html',
 	        controller: 'SearchController-top'

@@ -54,7 +54,33 @@ app.service('SearchService', function($q, $http){
 		})
 		return dfd.promise
 	}
-	
+
+	searchServ.getBrands = function(val){
+		console.log(val)
+		return $http({
+			method: 'post',
+			url: '/api/getBrands',
+			data: {
+				name: val
+			}
+		}).then(function(response){
+			console.log(response.status)
+			return response.status;
+		})
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	//-----need to get this working. broke it somehow -----//
 	//for every product, loop through all the attributes to find description, change it into a string and replace HTML elements.
 	// searchServ.replaceHTML = function(data){
 		
@@ -74,7 +100,8 @@ app.service('SearchService', function($q, $http){
 	
 
 
-	searchServ.topStyleChoices = [
+////////////////------drop-down search choices for ng-options------//////////////
+	searchServ.topStyleChoices = [[""],
 		{ name: "top" },
 		{ name: "shirts+tops" },
 		{ name: "knits+tees" },
@@ -85,7 +112,7 @@ app.service('SearchService', function($q, $http){
 		{ name: "blazer" },
 		{ name: "jacket" },
 		{ name: "sportcoats" },
-		{ name: "sweatshirt" },
+		{ name: "sweater" },
 		{ name: "vest" },
 		{ name: "outerwear" },
 		{ name: "sleepwear"},
@@ -94,7 +121,7 @@ app.service('SearchService', function($q, $http){
 		{ name: "casual+dress" },
 	]
 
-	searchServ.bottomStyleChoices = [
+	searchServ.bottomStyleChoices = [[""],
 		{ name: "jeans" },
 		{ name: "pants" },
 		{ name: "denim" },
@@ -103,14 +130,16 @@ app.service('SearchService', function($q, $http){
 		{ name: "skirt" }
 	]
 
-	searchServ.footwearStyleChoices = [
+	searchServ.footwearStyleChoices = [[""],
 		{ name: "shoes" },
 		{ name: "sneakers" },
 		{ name: "sandals" },
-		{ name: "wedges" },
-		{ name: "pumps+heels" },
+		{ name: "wedge" },
+		{ name: "heels" },
+		{ name: "pumps" },
 		{ name: "flats" },
-		{ name: "loafers+oxfords" },
+		{ name: "loafers"},
+		{ name: "oxfords"},
 		{ name: "boots" },
 		{ name: "flip-flops" },
 		{ name: "evening+shoes" }
@@ -119,7 +148,7 @@ app.service('SearchService', function($q, $http){
 
 	searchServ.genderChoices = ["","Women","Men","Unisex"]
 
-	searchServ.colorChoices = [
+	searchServ.colorChoices = [[""],
 	{"id":"16","name":"Black"},
 	{"id":"15","name":"White"},
 	{"id":"14","name":"Gray"},

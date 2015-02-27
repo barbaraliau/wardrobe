@@ -10,7 +10,8 @@ var userSchema = mongoose.Schema({
 		age: { type: Number, min: 13 },
 		bio: String,
 		savedOutfits : [
-			{ id: { type: Number } }
+			{ id: { type: Number } },
+			{ created_At: { type: Date, default: Date.now }}
 		]
 
 })

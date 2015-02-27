@@ -4,6 +4,21 @@ var Brand = require('../models/brandsModel'),
 
 module.exports = {
 
+	getBrands: function(req, res){
+		console.log(req.body)
+		Brand.find( {name: req.body.name}, function(err, response){
+			if(!err && response.length > 0) { 
+				console.log(response)
+				res.status(200).json(response)
+			} else if (!err && response.length === 0) {
+				res.status(404).json(response);
+			} if(err) {
+				res.status(500).json(err);
+			}
+		})
+
+	},
+
 	convertBrand: function(req, res){
 		Brand.find({name: { $in: req.body.brands}}, function(err, response){
 			var brandArray = [];
@@ -20,10 +35,10 @@ module.exports = {
 	getOutfits: function(req, res){
 		var url = 'http://api.shopstyle.com/api/v2/products/' +
 		req.body["id"] + 
-		'?pid=uid2500-26740550-52'
+		'?pid=uid2500-26740550-52';
 
 		request(url, function(error, response, body){
-			console.log(url)
+			// console.log(url)
 			if(!error && response.statusCode == 200){
 				return res.send(body).end();
 			}
@@ -37,7 +52,7 @@ module.exports = {
 		+ req.body.gender + '+' 
 		+ req.body.color + '&' 
 		+ req.body.brand 
-		+'&offset=0';
+		+'&offset=0&limit=20';
 		console.log(urlRequest);
 
 		request(urlRequest, function(error, response, body){

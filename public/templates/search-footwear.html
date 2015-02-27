@@ -1,22 +1,53 @@
-<div><img src="../images/shoe.png" ng-click="searchActive = !searchActive" ng-class="{ active: searchActive }" class="icon-size"></div>
-	<form class="form-div" ng-show="searchActive">
-		Style:
-			<select ng-model="footwearStyleChosen" ng-options="style.name for style in footwearStyleChoices">
-			</select></br>
-		Gender:
-			<select ng-model="footwearGenderChosen" ng-options="gender for gender in footwearGenderChoices">
-			</select> </br>
-		Color:
-			<select ng-model="footwearColorChosen" ng-options="color.name for color in footwearColorChoices">
-			</select> </br>
-		Brands (up to 3):  
-			<input type="text" placeholder="Enter brand" ng-model="brandChoiceOne">  
-			<input type="text" placeholder="Enter brand" ng-model="brandChoiceTwo">	 
-			<input type="text" placeholder="Enter brand" ng-model="brandChoiceThree">  
-			<button type="submit" ng-click="searchProducts()" ng-class="{ active: searchActive }">Search</button>
-	</form>
+<div><img src="../images/shoe.png" data-toggle="modal" data-target="#searchFootwear" class="icon-size"></div>
 
-<div class="contains-search-result">
-		<display-search-results></display-search-results>
+<div id="searchFootwear" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Search for Footwear</h4>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="form-group">
+						<label for="styleSelection">Style</label>
+							<select ng-model="footwearStyleChosen" ng-options="style.name for style in footwearStyleChoices"></select>
+					</div>
+					<div class="form-group">
+						<label for="genderSelection">Gender</label>
+						<select ng-model="footwearGenderChosen" ng-options="gender for gender in footwearGenderChoices">
+						</select> 
+					</div>
+					<div class="form-group">
+						<label for="colorSelection">Color</label>
+						<select ng-model="footwearColorChosen" ng-options="color.name for color in footwearColorChoices">
+						</select> 
+					</div>
+					<div class="form-group">
+						<label for="brandSelection">Brands</label>
+						<input type="text" placeholder="Enter brand" ng-model="brandChoiceOne" ng-change="getBrands(brandChoiceOne)" ng-class=" { 'text-success': foundBrand }" >
+
+						<input type="text" placeholder="Enter brand" ng-model="brandChoiceTwo" ng-change="getBrands(brandChoiceTwo)" ng-class=" { 'text-success': foundBrand }" >
+
+						<input type="text" placeholder="Enter brand" ng-model="brandChoiceThree" ng-change="getBrands(brandChoiceThree)" ng-class=" { 'text-success': foundBrand }" >
+					</div>
+					<div class="form-group">
+						<button class="btn btn-default" type="submit" ng-click="searchProducts()" data-dismiss="modal">Search</button>
+					</div>	
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
+<div class="contains-search-result">
+	<div class="container" ng-show="noResults">
+		<div class="well">
+			<h4>No results found. Please modify your search</h4>
+		</div>
+	</div>
+	<div class="container" ng-show="spinningWait">
+			<img class="spinning-wait" src="images/spinningWait.GIF" />
+	</div>
+	<display-search-results></display-search-results>
+</div>

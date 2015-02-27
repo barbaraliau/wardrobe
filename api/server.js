@@ -97,6 +97,7 @@ app.get('/api/profile/:username', isAuthed, UserController.profile);
 app.put('/api/saveItem', UserController.update);
 
 //------product searches----//
+app.post('/api/getBrands', ProductController.getBrands);
 
 app.post('/api/convert-brand', ProductController.convertBrand);
 
